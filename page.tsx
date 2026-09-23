@@ -50,6 +50,8 @@ export default function Dashboard() {
     return () => {
       if (ws.readyState === 1) {
         ws.send(JSON.stringify({ forget_all: 'ticks' })); // Unsubscribe
+        // Connect to Deriv WebSocket
+const ws = new WebSocket('wss://ws.derivws.com/websockets/v3?app_id=34t1lsJUPK1KnTtGGmkW8');
         ws.close();
       }
     };
