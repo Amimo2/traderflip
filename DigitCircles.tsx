@@ -1,5 +1,11 @@
-```tsx
 'use client';
+
+import React from 'react';
+
+interface DigitCirclesProps {
+  activeDigit: number | null;
+}
+// ... rest of your code
 
 interface DigitCirclesProps {
   activeDigit: number | null;
