@@ -1,34 +1,19 @@
-'use client';
+import PositionsPanel from '@/components/trading/PositionsPanel';
+import Chart from '@/components/trading/Chart';
+import TradePanel from '@/components/trading/TradePanel';
 
-import { useEffect, useState } from 'react';
-import { LiveDigits } from '../components/live-digits';
-import { normalizeAppConfig, type DigitsAppConfig } from '../lib/app-config';
-
-/**
- * Deployed app. Reads the no-code config injected at deploy time
- * (public/app-config.json). When present, the configurable control styles/order
- * are applied; when absent, the standard Digits app renders unchanged. Either
- * way the app is fully functional (real trading + login).
- */
-export default function DigitsPage() {
-  const [config, setConfig] = useState<DigitsAppConfig | null | undefined>(undefined);
-
-  useEffect(() => {
-    let cancelled = false;
-    const base = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
-    fetch(`${base}/app-config.json`)
-      .then((response) => (response.ok ? response.json() : null))
-      .then((data) => {
-        if (!cancelled) setConfig(data ? normalizeAppConfig(data) : null);
-      })
-      .catch(() => {
-        if (!cancelled) setConfig(null);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  if (config === undefined) return <div className="min-h-dvh bg-background" />;
-  return <LiveDigits appConfig={config ?? undefined} />;
+export default function Dashboard() {
+  return (
+    <div className="flex h-screen w-full bg-[#0e0e0e] text-gray-200 overflow-hidden">
+      <div className="w-[280px] border-r border-gray-800 flex flex-col">
+        <PositionsPanel />
+      </div>
+      <div className="flex-1 flex flex-col relative">
+        <Chart />
+      </div>
+      <div className="w-[340px] border-l border-gray-800 flex flex-col">
+        <TradePanel />
+      </div>
+    </div>
+  );
 }
